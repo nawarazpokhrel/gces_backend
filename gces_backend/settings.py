@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+LOCAL_APPS = [
+    'apps.users.apps.UsersConfig',
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework'
+
+]
+
+
+INSTALLED_APPS = DEFAULT_APPS+LOCAL_APPS+THIRD_PARTY_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -124,3 +135,4 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'users.User'
