@@ -1,18 +1,25 @@
-from django.contrib.auth import get_user_model
-
-from rest_framework.exceptions import ValidationError
+from apps.users.email import ConfirmationEmail
 from apps.users.models import TeacherUser
+
+from django.contrib.auth import get_user_model
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+from rest_framework.exceptions import ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken
+from gces_backend.tasks import send_email
 
 User = get_user_model()
 
 
 class CreateTeacherUserUseCase:
-    def __init__(self, serializer):
+    def __init__(self, serializer, request):
         self._serializer = serializer
         self._data = serializer.validated_data
+        self._request = request
 
     def execute(self):
         self._factory()
+        self._send_email()
 
     def _factory(self):
         password = self._data.pop('password')
@@ -22,15 +29,30 @@ class CreateTeacherUserUseCase:
             'is_full_time': self._data.pop('is_full_time'),
             'joined_date': self._data.pop('joined_date'),
         }
-        user = User(**self._data, is_teacher=True)
-        user.set_password(password)
-        user.save()
+        self.user = User(**self._data, is_teacher=True)
+        self.user.set_password(password)
+        self.user.save()
         try:
-            user_instance = User.objects.get(id=user.id)
+            self.user_instance = User.objects.get(id=self.user.id)
         except User.DoesNotExist:
             raise ValidationError('User does not exists')
         teacher = TeacherUser(
             **teacher_details,
-            user=user_instance
+            user=self.user_instance
         )
         teacher.save()
+
+    def _send_email(self):
+        token = RefreshToken.for_user(user=self.user_instance).access_token
+        # get current site
+        current_site = get_current_site(self._request).domain
+        # we are calling verify by email view  here whose name path is activate-by-email
+        relative_link = reverse('activate-by-email')
+        # make whole url
+        absolute_url = 'http://' + current_site + relative_link + "?token=" + str(token)
+        self.context = {
+            'user': self.user_instance.username,
+            'token': absolute_url
+        }
+        receipent = self.user.email
+        send_email.delay(receipent, **self.context)

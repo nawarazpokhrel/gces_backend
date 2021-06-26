@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% block subject %}
+  {% blocktrans %}Bottle Nepal - Welcome!{% endblocktrans %}
+{% endblock %}
+
+{% block html_body %}
+  <p>Dear {{ user }}</p>
+  <p>Greetings From Gandaki College of Engineering  Nepal !</p>
+  <br>
+  <p>Thank You for registering to  Gandaki college of engineering please click the link to verify your account
+      <a href="{{ token }}">Verify Email</a>  </p>
+
+  <br>
+  <p>Thank You for being the part of Gandaki College Nepal.
+      We appreciate your interest and are very glad to have you here wish you all the best for your future Endeavor.</p>
+  <p>Takecare and Stay safe.</p>
+  <br>
+  <p>Regards</p>
+  <p>Gandaki  College of Engineering Team</p>
+{% endblock html_body %}

@@ -13,5 +13,10 @@ urlpatterns = [
         'register/teacher',
         views.CreateTeacherUserView.as_view(),
         name='Add-teacher-detail'
-    )
+    ),
+    path(
+        'activate-by-email',
+        views.VerifyEmailAndSubscribeEmailView.as_view(),
+        name='activate-by-email'
+    ),
 ]
