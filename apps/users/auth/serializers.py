@@ -55,12 +55,12 @@ class TokenPairSerializer(TokenObtainSerializer):
 
 class TeacherLoginSerializer(TokenPairSerializer):
     def validate_user(self):
-        if not self.user.is_verified:
-            raise AuthenticationFailed(_('User is not verified'), code='user_not_verified')
         if self.user.user_type != UserType.teacher_user:
             raise serializers.ValidationError(
                 _('User is not a teacher try again.'),
             )
+        if not self.user.is_verified:
+            raise AuthenticationFailed(_('User is not verified'), code='user_not_verified')
 
 
 class StudentLoginSerializer(TokenPairSerializer):
