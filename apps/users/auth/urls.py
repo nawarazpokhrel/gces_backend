@@ -7,6 +7,11 @@ urlpatterns = [
     path(
         'teacher-login',
         views.TeacherLoginView.as_view(),
-        name='teacherlogin'
+        name='teacher-login'
+    ),
+    path(
+        'student-login',
+        views.StudentLoginView.as_view(),
+        name='student-login'
     )
 ]

@@ -15,9 +15,11 @@ class BaseUserAdmin(UserAdmin):
 
     list_display = (
         'id',
-        'username',
         'fullname',
-        'phone_number'
+        'phone_number',
+        'is_superuser',
+        'is_student',
+        'is_teacher',
     )
     search_fields = (
         'id',
@@ -33,7 +35,7 @@ class BaseUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'phone_number', 'password1', 'password2'),
+            'fields': ( 'email', 'phone_number', 'password1', 'password2'),
         }),
     )
     ordering = ('-date_joined',)
@@ -42,11 +44,12 @@ class BaseUserAdmin(UserAdmin):
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': (
-            'email',
             'phone_number',
-            'fullname'
+            'fullname',
+
+
         )}),
         (_('Permissions'), {
             'fields': (
@@ -63,9 +66,8 @@ class LibrarianUserAdmin(BaseUserAdmin):
     add_form = forms.LibrarianUserCreationForm
 
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': (
-            'email',
             'phone_number',
         )}),
         (_('Permissions'), {
@@ -119,9 +121,9 @@ class SystemUserAdmin(BaseUserAdmin):
     add_form = forms.SystemAdminUserCreationForm
 
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': (
-            'email',
+            # 'email',
             'phone_number',
         )}),
         (_('Permissions'), {

@@ -22,7 +22,20 @@ class CreateTeacherUserView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return Response('created successfully', status=status.HTTP_201_CREATED)
+        return Response('Teacher user created successfully', status=status.HTTP_201_CREATED)
+
+class CreateStudentUserView(generics.CreateAPIView):
+    serializer_class = serializers.CreateStudentUserSerializer
+    permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        return usecases.CreateStudentUserUseCase(serializer=serializer, request=self.request).execute()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response('Student created successfully', status=status.HTTP_201_CREATED)
 
 
 class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):

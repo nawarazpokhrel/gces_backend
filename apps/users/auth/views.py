@@ -25,3 +25,13 @@ class TeacherLoginView(TokenObtainPairView):
     #         raise InvalidToken(e.args[0])
     #
     #     return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+class StudentLoginView(TokenObtainPairView):
+    """
+    Use this end-point to get access token for normal user
+    """
+    # logging_methods = ['POST']
+    # throttle_scope = 'login'
+
+    serializer_class = serializers.StudentLoginSerializer

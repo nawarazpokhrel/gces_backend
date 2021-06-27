@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 
 from apps.users.models import TeacherUser, StudentUser
+
 User = get_user_model()
 
 
@@ -16,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = (
-            'username',
+            # 'username',
             'fullname',
             'email',
             'phone_number',
@@ -37,32 +38,21 @@ class TeacherUserSerializer(serializers.ModelSerializer):
 
 
 class CreateTeacherUserSerializer(CreateUserSerializer):
-    faculty = serializers.CharField()
-    faculty_code = serializers.CharField()
-    is_full_time = serializers.BooleanField()
-    joined_date = serializers.DateField()
+    # faculty = serializers.CharField()
+    # faculty_code = serializers.CharField()
+    # is_full_time = serializers.BooleanField()
+    # joined_date = serializers.DateField()
 
     class Meta(CreateUserSerializer.Meta):
-        fields = CreateUserSerializer.Meta.fields + (
-            'faculty',
-            'faculty_code',
-            'is_full_time',
-            'joined_date'
-        )
+        pass
 
 
 class CreateStudentUserSerializer(CreateUserSerializer):
-    faculty = serializers.CharField()
-    faculty_code = serializers.CharField()
-    joined_date = serializers.DateField()
-    registration_number = serializers.CharField()
-    parents_name = serializers.CharField()
+    # faculty = serializers.CharField()
+    # faculty_code = serializers.CharField()
+    # joined_date = serializers.DateField()
+    # registration_number = serializers.CharField()
+    # parents_name = serializers.CharField()
 
     class Meta(CreateUserSerializer.Meta):
-        fields = CreateUserSerializer.Meta.fields + (
-            'faculty',
-            'faculty_code',
-            'joined_date',
-            'registration_number',
-            'parents_name',
-        )
+        pass

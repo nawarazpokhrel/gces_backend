@@ -23,6 +23,9 @@ from apps.users.utils import UserType
 
 
 class TokenPairSerializer(TokenObtainSerializer):
+    default_error_messages = {
+        'login_error': _('Username or Password does not matched .')
+    }
 
     @classmethod
     def get_token(cls, user):
@@ -69,6 +72,8 @@ class StudentLoginSerializer(TokenPairSerializer):
             raise serializers.ValidationError(
                 _('User is not a student.'),
             )
+        if not self.user.is_verified:
+            raise AuthenticationFailed(_('User is not verified'), code='user_not_verified')
 
 # class StaffLoginSerializer(TokenPairSerializer):
 #     def validate_user(self):
