@@ -1,14 +1,11 @@
 from rest_framework_simplejwt.serializers import (
     TokenObtainSerializer)
 
-from datetime import timedelta
 from rest_framework_simplejwt.exceptions import InvalidToken, AuthenticationFailed
 
-from django.contrib.auth import authenticate
 from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
 
-from rest_framework.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from rest_framework_simplejwt.serializers import (
@@ -16,7 +13,6 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
     PasswordField
 )
-from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.users.utils import UserType
@@ -24,7 +20,7 @@ from apps.users.utils import UserType
 
 class TokenPairSerializer(TokenObtainSerializer):
     default_error_messages = {
-        'login_error': _('Username or Password does not matched .')
+        'no_active_account': _('Username or Password does not matched .')
     }
 
     @classmethod
@@ -44,7 +40,6 @@ class TokenPairSerializer(TokenObtainSerializer):
         data = super().validate(attrs)
         self.validate_user()
         refresh = self.get_token(self.user)
-
         data['refresh_token'] = str(refresh)
         data['token'] = str(refresh.access_token)
         data['user_type'] = self.get_user_type(self.user)
