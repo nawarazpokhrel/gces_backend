@@ -1,21 +1,14 @@
-from rest_framework_simplejwt.serializers import (
-    TokenObtainSerializer)
-
-from rest_framework_simplejwt.exceptions import InvalidToken, AuthenticationFailed
+from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
 from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
 
-from rest_framework import serializers
-
+from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.serializers import (
     TokenObtainSerializer,
     TokenRefreshSerializer,
-    PasswordField
 )
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from apps.users.utils import UserType
 
 
 class CustomTokenObtainSerializer(TokenObtainSerializer):
@@ -55,3 +48,29 @@ class LoginSerializer(CustomTokenObtainSerializer):
     def validate_user(self):
         if not self.user.is_verified:
             raise AuthenticationFailed(_('User is not verified'), code='user_not_verified')
+
+
+class CustomTokenRefreshSerializer(TokenRefreshSerializer):
+
+    def validate(self, attrs):
+        refresh = RefreshToken(attrs['refresh'])
+
+        data = {'token': str(refresh.access_token)}
+
+        if api_settings.ROTATE_REFRESH_TOKENS:
+            if api_settings.BLACKLIST_AFTER_ROTATION:
+                try:
+                    # Attempt to blacklist the given refresh token
+                    refresh.blacklist()
+                except AttributeError:
+                    # If blacklist app not installed, `blacklist` method will
+                    # not be present
+                    pass
+
+            refresh.set_jti()
+            refresh.set_exp()
+
+            data['refresh_token'] = str(refresh)
+
+        return data
+
