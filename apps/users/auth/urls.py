@@ -5,13 +5,8 @@ from apps.users.auth import views
 
 urlpatterns = [
     path(
-        'teacher-login',
-        views.TeacherLoginView.as_view(),
-        name='teacher-login'
+        'login',
+        views.LoginView.as_view(),
+        name='login'
     ),
-    path(
-        'student-login',
-        views.StudentLoginView.as_view(),
-        name='student-login'
-    )
 ]

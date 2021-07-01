@@ -6,14 +6,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from apps.users.auth import serializers
 
 
-class TeacherLoginView(TokenObtainPairView):
+class LoginView(TokenObtainPairView):
     """
     Use this end-point to get access token for normal user
     """
     # logging_methods = ['POST']
     # throttle_scope = 'login'
 
-    serializer_class = serializers.TeacherLoginSerializer
+    serializer_class = serializers.LoginSerializer
 
     # @swagger_auto_schema(responses={200: serializers.TokenPairSerializer()})
     # def post(self, request, *args, **kwargs):
@@ -26,12 +26,3 @@ class TeacherLoginView(TokenObtainPairView):
     #
     #     return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
-
-class StudentLoginView(TokenObtainPairView):
-    """
-    Use this end-point to get access token for normal user
-    """
-    # logging_methods = ['POST']
-    # throttle_scope = 'login'
-
-    serializer_class = serializers.StudentLoginSerializer

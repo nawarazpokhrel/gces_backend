@@ -1,10 +1,12 @@
 from apps.users.email import ConfirmationEmail
 from apps.users.models import TeacherUser, StudentUser
 
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from rest_framework.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import ValidationError, NotFound
 from rest_framework_simplejwt.tokens import RefreshToken
 from gces_backend.tasks import send_email
 
@@ -31,16 +33,16 @@ class CreateTeacherUserUseCase:
         # }
         self.user = User(**self._data, is_teacher=True)
         self.user.set_password(password)
+        try:
+            self.user.clean()
+        except DjangoValidationError as e:
+            raise ValidationError(e.message_dict)
         self.user.save()
         try:
             self.user_instance = User.objects.get(id=self.user.id)
         except User.DoesNotExist:
-            raise ValidationError('User does not exists')
-        teacher = TeacherUser(
-            # **teacher_details,
-            user=self.user_instance
-        )
-        teacher.save()
+            raise ValidationError('User does not exist')
+
 
     def _send_email(self):
         token = RefreshToken.for_user(user=self.user_instance).access_token
@@ -80,21 +82,19 @@ class CreateStudentUserUseCase:
         # }
         user = User(**self._data, is_student=True)
         user.set_password(password)
+        try:
+            user.clean()
+        except DjangoValidationError as e:
+            raise ValidationError(e.message_dict)
         user.save()
         try:
             # Get user
             self.user_instance = User.objects.get(
                 id=user.id,
-                email=self._data['email']
             )
         except User.DoesNotExist:
             raise ValidationError('User does not exists')
-        # Set user one to one relation and save
-        student = StudentUser(
-            # **student_details,
-            user=self.user_instance)
-        # save student
-        student.save()
+
 
     def _send_email(self):
         token = RefreshToken.for_user(user=self.user_instance).access_token
@@ -111,3 +111,22 @@ class CreateStudentUserUseCase:
         receipent = self.user_instance.email
         # ConfirmationEmail(context=self.context).send(to=[receipent])
         send_email.delay(receipent, **self.context)
+
+
+class UserNotFound(NotFound):
+    default_detail = _('User Not found.')
+
+
+class GetUserUseCase:
+    def __init__(self, user_id):
+        self._user_id = user_id
+
+    def execute(self):
+        self._factory()
+        return self.user
+
+    def _factory(self):
+        try:
+            self.user = User.objects.get(pk=self._user_id)
+        except User.DoesNotExist:
+            raise UserNotFound

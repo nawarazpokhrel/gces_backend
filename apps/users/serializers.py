@@ -17,10 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = (
-            # 'username',
             'fullname',
             'email',
-            'phone_number',
             'password',
         )
         extra_kwargs = {
@@ -56,3 +54,27 @@ class CreateStudentUserSerializer(CreateUserSerializer):
 
     class Meta(CreateUserSerializer.Meta):
         pass
+
+
+class UserProfileSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        fields = (
+            'fullname',
+            'email',
+            'registration_number',
+            'batch',
+            'faculty',
+            'faculty_code',
+            'role'
+        )
+
+
+var = {
+    "name": "Roshan Adhikari",
+    "email": "",
+    "regNo": "503",
+    "phoneNumber": "",
+    "batch": "2016",
+    "role": "student",
+    "faculty": "se"
+}

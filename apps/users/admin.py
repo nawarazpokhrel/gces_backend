@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from apps.users import  models,forms
+from apps.users import models, forms
 
 User = get_user_model()
 
@@ -20,6 +20,7 @@ class BaseUserAdmin(UserAdmin):
         'is_superuser',
         'is_student',
         'is_teacher',
+        'batch',
     )
     search_fields = (
         'id',
@@ -35,7 +36,7 @@ class BaseUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ( 'email', 'phone_number', 'password1', 'password2'),
+            'fields': ('email', 'phone_number', 'password1', 'password2'),
         }),
     )
     ordering = ('-date_joined',)
@@ -48,7 +49,6 @@ class UserAdmin(BaseUserAdmin):
         (_('Personal info'), {'fields': (
             'phone_number',
             'fullname',
-
 
         )}),
         (_('Permissions'), {
@@ -78,41 +78,44 @@ class LibrarianUserAdmin(BaseUserAdmin):
 
 
 @admin.register(models.StudentUser)
-class StudentUserAdmin(ModelAdmin):
-    list_display = (
-        'user',
-        'faculty',
-        'faculty_code',
-        'joined_date'
+class StudentUserAdmin(BaseUserAdmin):
+    add_form = forms.StudentUserCreationForm
+
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        (_('Personal info'), {'fields': (
+            'phone_number',
+            'faculty',
+            'faculty_code',
+            'registration_number',
+            'parents_name',
+            'batch',
+        )}),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_student', 'groups', 'user_permissions'),
+        }),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    list_display_links = (
-        'user',
-    )
-    list_filter = (
-        'joined_date',
-        'faculty',
-        'user'
-    )
-    ordering = ['-date_created']
 
 
 @admin.register(models.TeacherUser)
-class TeacherUserAdmin(ModelAdmin):
-    # add_form = forms.TeacherUserCreationForm
-    list_display = (
-        'user',
-        'faculty',
-        'faculty_code',
-        'joined_date',
-        'is_full_time'
+class TeacherUserAdmin(BaseUserAdmin):
+    add_form = forms.TeacherUserCreationForm
+
+    fieldsets = (
+        (None, {'fields': ('email', 'password')}),
+        (_('Personal info'), {'fields': (
+            'phone_number',
+        )}),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_teacher', 'groups', 'user_permissions'),
+        }),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    list_display_links = (
-        'user',
-    )
+
     list_filter = (
-        'joined_date',
-        'faculty',
-        'user'
+        'is_active',
+        'is_teacher',
     )
 
 

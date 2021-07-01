@@ -8,8 +8,11 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.permissions import AllowAny
 
+from apps.users.mixins import UserMixin
 from gces_backend.settings import SECRET_KEY
-User=get_user_model()
+
+User = get_user_model()
+
 
 class CreateTeacherUserView(generics.CreateAPIView):
     serializer_class = serializers.CreateTeacherUserSerializer
@@ -23,6 +26,7 @@ class CreateTeacherUserView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response('Teacher user created successfully', status=status.HTTP_201_CREATED)
+
 
 class CreateStudentUserView(generics.CreateAPIView):
     serializer_class = serializers.CreateStudentUserSerializer
@@ -54,7 +58,7 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
             # get the user that sent the payload
             user = User.objects.get(id=payload['user_id'])
             # now verify the user
-            user.is_verified=True
+            user.is_verified = True
             user.save()
             return Response('Successfully verified', status=status.HTTP_200_OK)
         # raise exceptions if token expired
@@ -63,3 +67,11 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
         # raise exception if the token sent is wrong
         except jwt.exceptions.DecodeError as e:
             return Response({'error': 'Invalid Token'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileView(generics.RetrieveAPIView,UserMixin):
+    serializer_class = serializers.UserProfileSerializer
+
+    def get_object(self):
+        return self.get_user()
+

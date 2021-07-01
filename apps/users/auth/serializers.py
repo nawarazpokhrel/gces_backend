@@ -18,9 +18,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from apps.users.utils import UserType
 
 
-class TokenPairSerializer(TokenObtainSerializer):
+class CustomTokenObtainSerializer(TokenObtainSerializer):
     default_error_messages = {
-        'no_active_account': _('Username or Password does not matched .')
+        'no_active_account': _('The user name or password is incorrect')
     }
 
     @classmethod
@@ -51,28 +51,7 @@ class TokenPairSerializer(TokenObtainSerializer):
         pass
 
 
-class TeacherLoginSerializer(TokenPairSerializer):
+class LoginSerializer(CustomTokenObtainSerializer):
     def validate_user(self):
-        if self.user.user_type != UserType.teacher_user:
-            raise serializers.ValidationError(
-                _('User is not a teacher try again.'),
-            )
         if not self.user.is_verified:
             raise AuthenticationFailed(_('User is not verified'), code='user_not_verified')
-
-
-class StudentLoginSerializer(TokenPairSerializer):
-    def validate_user(self):
-        if self.user.user_type != UserType.student_user:
-            raise serializers.ValidationError(
-                _('User is not a student.'),
-            )
-        if not self.user.is_verified:
-            raise AuthenticationFailed(_('User is not verified'), code='user_not_verified')
-
-# class StaffLoginSerializer(TokenPairSerializer):
-#     def validate_user(self):
-#         if not self.user.is_staff:
-#             raise serializers.ValidationError(
-#                 _('Username or Password does not matched .'),
-#             )

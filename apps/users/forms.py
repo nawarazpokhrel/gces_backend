@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-
 User = get_user_model()
 
 
@@ -68,6 +67,7 @@ class TeacherUserCreationForm(UserCreationForm):
             user.save()
         return user
 
+
 #
 # # Bus Company Agent user
 class StudentUserCreationForm(UserCreationForm):
@@ -79,6 +79,7 @@ class StudentUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
 
 #
 # # Librarian user

@@ -19,4 +19,9 @@ urlpatterns = [
         views.VerifyEmailAndSubscribeEmailView.as_view(),
         name='activate-by-email'
     ),
+    path(
+        '<str:user_id>/profile',
+        views.UserProfileView.as_view(),
+        name='user-profile-email'
+    ),
 ]
