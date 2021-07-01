@@ -60,8 +60,8 @@ class CreateTeacherUserUseCase:
             'token': absolute_url
         }
         receipent = self.user.email
-        # ConfirmationEmail(context=self.context).send(to=[receipent])
-        send_email.delay(receipent, **self.context)
+        ConfirmationEmail(context=self.context).send(to=[receipent])
+        # send_email.delay(receipent, **self.context)
 
 
 class CreateStudentUserUseCase:
