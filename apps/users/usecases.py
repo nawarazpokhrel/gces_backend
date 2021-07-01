@@ -13,6 +13,10 @@ from gces_backend.tasks import send_email
 User = get_user_model()
 
 
+class BaseUserUseCase:
+    pass
+
+
 class CreateTeacherUserUseCase:
     def __init__(self, serializer, request):
         self._serializer = serializer
@@ -42,7 +46,6 @@ class CreateTeacherUserUseCase:
             self.user_instance = User.objects.get(id=self.user.id)
         except User.DoesNotExist:
             raise ValidationError('User does not exist')
-
 
     def _send_email(self):
         token = RefreshToken.for_user(user=self.user_instance).access_token
@@ -95,7 +98,6 @@ class CreateStudentUserUseCase:
         except User.DoesNotExist:
             raise ValidationError('User does not exists')
 
-
     def _send_email(self):
         token = RefreshToken.for_user(user=self.user_instance).access_token
         # get current site
@@ -128,5 +130,20 @@ class GetUserUseCase:
     def _factory(self):
         try:
             self.user = User.objects.get(pk=self._user_id)
+        except User.DoesNotExist:
+            raise UserNotFound
+
+
+class UserProfileUseCase:
+    def __init__(self, user):
+        self._user_id = user
+
+    def execute(self):
+        self._factory()
+        return self.user
+
+    def _factory(self):
+        try:
+            self.user = User.objects.get(pk=self._user_id.id)
         except User.DoesNotExist:
             raise UserNotFound

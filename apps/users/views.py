@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from apps.users import usecases, serializers
 from rest_framework.response import Response
 from rest_framework import status, generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.users.mixins import UserMixin
 from gces_backend.settings import SECRET_KEY
@@ -71,7 +71,8 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
 
 class UserProfileView(generics.RetrieveAPIView,UserMixin):
     serializer_class = serializers.UserProfileSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-        return self.get_user()
+        return usecases.UserProfileUseCase(user=self.request.user).execute()
 

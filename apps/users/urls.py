@@ -20,7 +20,7 @@ urlpatterns = [
         name='activate-by-email'
     ),
     path(
-        '<str:user_id>/profile',
+        'profile',
         views.UserProfileView.as_view(),
         name='user-profile-email'
     ),
