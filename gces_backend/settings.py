@@ -29,7 +29,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:9000"
+]
 # Application definition
+
 
 DEFAULT_APPS = [
     'django.contrib.admin',
@@ -42,6 +50,7 @@ DEFAULT_APPS = [
 
 LOCAL_APPS = [
     'apps.users.apps.UsersConfig',
+    'apps.notice.apps.NoticeConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -52,6 +61,7 @@ THIRD_PARTY_APPS = [
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
