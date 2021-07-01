@@ -1,1 +1,1 @@
-web: gunicorn gces_backend.wsgi --log-file -
+web: gunicorn gces_backend.wsgi:application --log-file -
