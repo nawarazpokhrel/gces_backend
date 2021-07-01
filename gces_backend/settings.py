@@ -120,7 +120,9 @@ DATABASES = {
     }
 }
 db_from_env = dj_database_url.config()
-DATABASES['default'].update((db_from_env))
+import dj_database_url
+
+DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -205,5 +207,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-
-
