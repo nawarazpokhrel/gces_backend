@@ -172,11 +172,22 @@ AUTH_USER_MODEL = 'users.User'
 django_heroku.settings(locals())
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.postmarkapp.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'moonsoonrain35@gmail.com'
+EMAIL_HOST_USER = '4becc327-a1e1-4271-b5ef-41432eff16be'
 
-EMAIL_HOST_PASSWORD = '23Oct1996'
+
+
+
+EMAIL_HOST_PASSWORD = '4becc327-a1e1-4271-b5ef-41432eff16be'
+
+
+# Server:
+# Ports: 25, 2525, or 587
+# Username:
+# Password:
+# Authentication: Plain text, CRAM-MD5, or TLS
+# Header: X-PM-Message-Stream: outbound
 
 CELERY_TIMEZONE = "Asia/Kathmandu"
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
