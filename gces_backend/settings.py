@@ -172,14 +172,10 @@ AUTH_USER_MODEL = 'users.User'
 django_heroku.settings(locals())
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.postmarkapp.com'
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = '4becc327-a1e1-4271-b5ef-41432eff16be'
-
-
-
-
-EMAIL_HOST_PASSWORD = '4becc327-a1e1-4271-b5ef-41432eff16be'
+EMAIL_HOST_USER = 'nabaraj@tripnp.com'
+EMAIL_HOST_PASSWORD = 'AnUxEg0kyYBTsv9h'
 
 
 # Server:
