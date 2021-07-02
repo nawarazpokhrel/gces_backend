@@ -172,11 +172,12 @@ AUTH_USER_MODEL = 'users.User'
 django_heroku.settings(locals())
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_PORT = 465
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = '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'
-
+EMAIL_HOST_USER = 'moonsoonrain35@gmail.com'
+EMAIL_HOST_PASSWORD = 'lnljgxcfpbtsddkr'
+DEFAULT_FROM_EMAIL = 'moonsoonrain35@gmail.com'
 
 # Server:
 # Ports: 25, 2525, or 587
@@ -212,5 +213,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-
-
