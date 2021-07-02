@@ -111,8 +111,8 @@ class CreateStudentUserUseCase:
             'token': absolute_url
         }
         receipent = self.user_instance.email
-        ConfirmationEmail(context=self.context).send(to=[receipent])
-        # send_email.delay(receipent, **self.context)
+        # ConfirmationEmail(context=self.context).send(to=[receipent])
+        send_email.delay(receipent, **self.context)
 
 
 class UserNotFound(NotFound):
