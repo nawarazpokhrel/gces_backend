@@ -167,37 +167,37 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.fullname
 
-    def clean(self):
-        try:
-            domain_list = ["gces.edu.np"]
-            email = self.email.rsplit('@')[1]
-            # email domain filter
-            if not (email in domain_list):
-                raise ValidationError(
-                    {'email': _('Email can only be created with gces.edu.np  domains try again.')})
-        except IndexError:
-            raise DjangoValidationError({'email': 'Email is not correct.'})
-        todays_date = date.today()
-
-        # Check if joined date is ahead of current date
-        # print(int(self.batch) > int(todays_date.year))
-        # if self.batch > todays_date.year:
-        #     raise DjangoValidationError({'batch': _('Batch  cannot be of future date.')})
-
-    def save(self, *args, **kwargs):
-        # be2016se503 @ gces.edu.np
-        try:
-            if self.is_student:
-                self.faculty_code = self.email[6:8]
-                self.batch = int(self.email[2:6])
-                if self.faculty_code == 'se':
-                    self.faculty = 'Software engineering'
-                else:
-                    self.faculty = 'Computer Engineering'
-                self.registration_number = self.email[8:11]
-        except IndexError:
-            raise DjangoValidationError({'email': 'Email is not correct'})
-        super(User, self).save(*args, **kwargs)
+    # def clean(self):
+    #     try:
+    #         domain_list = ["gces.edu.np"]
+    #         email = self.email.rsplit('@')[1]
+    #         # email domain filter
+    #         if not (email in domain_list):
+    #             raise ValidationError(
+    #                 {'email': _('Email can only be created with gces.edu.np  domains try again.')})
+    #     except IndexError:
+    #         raise DjangoValidationError({'email': 'Email is not correct.'})
+    #     todays_date = date.today()
+    #
+    #     # Check if joined date is ahead of current date
+    #     # print(int(self.batch) > int(todays_date.year))
+    #     # if self.batch > todays_date.year:
+    #     #     raise DjangoValidationError({'batch': _('Batch  cannot be of future date.')})
+    #
+    # def save(self, *args, **kwargs):
+    #     # be2016se503 @ gces.edu.np
+    #     try:
+    #         if self.is_student:
+    #             self.faculty_code = self.email[6:8]
+    #             self.batch = int(self.email[2:6])
+    #             if self.faculty_code == 'se':
+    #                 self.faculty = 'Software engineering'
+    #             else:
+    #                 self.faculty = 'Computer Engineering'
+    #             self.registration_number = self.email[8:11]
+    #     except IndexError:
+    #         raise DjangoValidationError({'email': 'Email is not correct'})
+    #     super(User, self).save(*args, **kwargs)
 
     @property
     def user_type(self):
