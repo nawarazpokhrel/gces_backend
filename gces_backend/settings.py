@@ -174,7 +174,7 @@ django_heroku.settings(locals())
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'in-v3.mailjet.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'c0f4cd86502b40fad3fc487e9d9a4051'
+EMAIL_HOST_USER = '5aa7b0de615e87b11b7b3fff11c7c040'
 EMAIL_HOST_PASSWORD = 'c0f4cd86502b40fad3fc487e9d9a4051'
 
 
