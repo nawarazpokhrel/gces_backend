@@ -37,10 +37,10 @@ class CreateTeacherUserUseCase:
         # }
         self.user = User(**self._data, is_teacher=True)
         self.user.set_password(password)
-        # try:
-        #     self.user.clean()
-        # except DjangoValidationError as e:
-        #     raise ValidationError(e.message_dict)
+        try:
+            self.user.clean()
+        except DjangoValidationError as e:
+            raise ValidationError(e.message_dict)
         self.user.save()
         try:
             self.user_instance = User.objects.get(id=self.user.id)
