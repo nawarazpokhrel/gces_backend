@@ -1,5 +1,4 @@
 from apps.users.email import ConfirmationEmail
-from apps.users.models import TeacherUser, StudentUser
 
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.contrib.auth import get_user_model
@@ -14,10 +13,26 @@ User = get_user_model()
 
 
 class BaseUserUseCase:
-    pass
+    def _send_email(self, user, request):
+        self.user_instance = user
+        self._request = request
+        token = RefreshToken.for_user(user=self.user_instance).access_token
+        # get current site
+        current_site = get_current_site(self._request).domain
+        # we are calling verify by email view  here whose name path is activate-by-email
+        relative_link = reverse('activate-by-email')
+        # make whole url
+        absolute_url = 'http://' + current_site + relative_link + "?token=" + str(token)
+        self.context = {
+            'user': self.user_instance.fullname,
+            'token': absolute_url
+        }
+        receipent = self.user_instance.email
+        ConfirmationEmail(context=self.context).send(to=[receipent])
+        # send_email.delay(receipent, **self.context)
 
 
-class CreateTeacherUserUseCase:
+class CreateTeacherUserUseCase(BaseUserUseCase):
     def __init__(self, serializer, request):
         self._serializer = serializer
         self._data = serializer.validated_data
@@ -25,16 +40,10 @@ class CreateTeacherUserUseCase:
 
     def execute(self):
         self._factory()
-        self._send_email()
+        super()._send_email(self.user_instance, self._request)
 
     def _factory(self):
         password = self._data.pop('password')
-        # teacher_details = {
-        #     'faculty': self._data.pop('faculty'),
-        #     'faculty_code': self._data.pop('faculty_code'),
-        #     'is_full_time': self._data.pop('is_full_time'),
-        #     'joined_date': self._data.pop('joined_date'),
-        # }
         self.user = User(**self._data, is_teacher=True)
         self.user.set_password(password)
         try:
@@ -47,24 +56,8 @@ class CreateTeacherUserUseCase:
         except User.DoesNotExist:
             raise ValidationError('User does not exist')
 
-    def _send_email(self):
-        token = RefreshToken.for_user(user=self.user_instance).access_token
-        # get current site
-        current_site = get_current_site(self._request).domain
-        # we are calling verify by email view  here whose name path is activate-by-email
-        relative_link = reverse('activate-by-email')
-        # make whole url
-        absolute_url = 'http://' + current_site + relative_link + "?token=" + str(token)
-        self.context = {
-            'user': self.user_instance.fullname,
-            'token': absolute_url
-        }
-        receipent = self.user.email
-        ConfirmationEmail(context=self.context).send(to=[receipent])
-        # send_email.delay(receipent, **self.context)
 
-
-class CreateStudentUserUseCase:
+class CreateStudentUserUseCase(BaseUserUseCase):
     def __init__(self, serializer, request):
         self._serializer = serializer
         self._data = serializer.validated_data
@@ -72,17 +65,11 @@ class CreateStudentUserUseCase:
 
     def execute(self):
         self._factory()
-        self._send_email()
+        super(BaseUserUseCase)._send_email(self.user_instance, self._request)
 
     def _factory(self):
         password = self._data.pop('password')
-        # student_details = {
-        #     'faculty': self._data.pop('faculty'),
-        #     'faculty_code': self._data.pop('faculty_code'),
-        #     'joined_date': self._data.pop('joined_date'),
-        #     'registration_number': self._data.pop('registration_number'),
-        #     'parents_name': self._data.pop('parents_name')
-        # }
+
         user = User(**self._data, is_student=True)
         user.set_password(password)
         try:
@@ -97,22 +84,6 @@ class CreateStudentUserUseCase:
             )
         except User.DoesNotExist:
             raise ValidationError('User does not exists')
-
-    def _send_email(self):
-        token = RefreshToken.for_user(user=self.user_instance).access_token
-        # get current site
-        current_site = get_current_site(self._request).domain
-        # we are calling verify by email view  here whose name path is activate-by-email
-        relative_link = reverse('activate-by-email')
-        # make whole url
-        absolute_url = 'http://' + current_site + relative_link + "?token=" + str(token)
-        self.context = {
-            'user': self.user_instance.fullname,
-            'token': absolute_url
-        }
-        receipent = self.user_instance.email
-        # ConfirmationEmail(context=self.context).send(to=[receipent])
-        send_email.delay(receipent, **self.context)
 
 
 class UserNotFound(NotFound):
