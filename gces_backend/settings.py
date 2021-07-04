@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-pzpb31%0=f-&jj@&hg$kmcb0^5d-4dv_dqqz^^$e(exbw($*#7
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://127.0.0.1:8000/',
+    'http://127.0.0.1:8000',
     'https://gcesfinalproj.herokuapp.com'
 ]
 #
