@@ -28,15 +28,16 @@ SECRET_KEY = 'django-insecure-pzpb31%0=f-&jj@&hg$kmcb0^5d-4dv_dqqz^^$e(exbw($*#7
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+#
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:9000",
+    'https://gcesfinalproj.herokuapp.com/'
+]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "https://example.com",
-#     "https://sub.example.com",
-#     "http://localhost:3000",
-#     "http://127.0.0.1:9000"
-# ]
-
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 
