@@ -34,7 +34,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://sub.example.com",
     "http://localhost:3000",
     "http://127.0.0.1:9000",
-    'https://gcesfinalproj.herokuapp.com/'
+    'https://gcesfinalproj.herokuapp.com'
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
