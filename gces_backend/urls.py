@@ -42,6 +42,10 @@ urlpatterns = [
         'api/v1/user/',
         include('apps.users.urls')
     ),
+    path(
+        'api/v1/notice/',
+        include('apps.notice.urls')
+    ),
 
     path(
         'api/v1/user/auth/',
