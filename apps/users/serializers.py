@@ -56,7 +56,7 @@ class CreateStudentUserSerializer(CreateUserSerializer):
         pass
 
 
-class UserProfileSerializer(UserSerializer):
+class ProfileSerializer(UserSerializer):
     class Meta(UserSerializer.Meta):
         fields = (
             'fullname',
@@ -67,6 +67,10 @@ class UserProfileSerializer(UserSerializer):
             'faculty_code',
             'role'
         )
+
+
+class UserProfileSerializer(serializers.Serializer):
+    user = ProfileSerializer()
 
 
 var = {

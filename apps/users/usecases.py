@@ -114,7 +114,9 @@ class UserProfileUseCase:
         return self.user
 
     def _factory(self):
+
         try:
-            self.user = User.objects.get(pk=self._user_id.id)
+            user = User.objects.get(pk=self._user_id.id)
+            self.user = {'user': user}
         except User.DoesNotExist:
             raise UserNotFound
