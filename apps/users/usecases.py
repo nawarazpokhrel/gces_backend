@@ -65,7 +65,7 @@ class CreateStudentUserUseCase(BaseUserUseCase):
 
     def execute(self):
         self._factory()
-        super(BaseUserUseCase)._send_email(self.user_instance, self._request)
+        super()._send_email(self.user_instance, self._request)
 
     def _factory(self):
         password = self._data.pop('password')
