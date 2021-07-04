@@ -27,7 +27,10 @@ SECRET_KEY = 'django-insecure-pzpb31%0=f-&jj@&hg$kmcb0^5d-4dv_dqqz^^$e(exbw($*#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'http://127.0.0.1:8000/',
+    'https://gcesfinalproj.herokuapp.com'
+]
 #
 CORS_ALLOWED_ORIGINS = [
     "https://example.com",
@@ -65,7 +68,6 @@ THIRD_PARTY_APPS = [
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
-
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
