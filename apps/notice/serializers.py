@@ -18,4 +18,11 @@ class AddNoticeSerializers(NoticeSerializers):
         )
 
 
-
+class ListNoticeSerializers(NoticeSerializers):
+    class Meta(NoticeSerializers.Meta):
+        fields = (
+            'id',
+            'title',
+            'description',
+            'image',
+        )

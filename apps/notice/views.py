@@ -10,8 +10,15 @@ from apps.notice.permissions import IsTeacher, IsLibrarian
 
 class AddNoticeView(generics.CreateAPIView):
     serializer_class = serializers.AddNoticeSerializers
-    # (Or(permissions.IsAdminUser, TokenHasReadWriteScope),)
     permission_classes = [IsAuthenticated & (IsTeacher | IsLibrarian)]
 
     def perform_create(self, serializer):
         return usecases.AddNoticeUseCase(serializer=serializer, user=self.request.user).execute()
+
+
+class ListNoticeView(generics.ListAPIView):
+    serializer_class = serializers.ListNoticeSerializers
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return usecases.ListNoticeUseCase().execute()

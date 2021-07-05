@@ -7,5 +7,10 @@ urlpatterns = [
         'add',
         views.AddNoticeView.as_view(),
         name='add-notice'
+    ),
+    path(
+        'list',
+        views.ListNoticeView.as_view(),
+        name='list-notice'
     )
 ]
