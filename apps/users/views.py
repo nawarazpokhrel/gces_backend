@@ -46,7 +46,7 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
     """
     Use this to verify user email
     """
-    serializer_class = None
+    serializer_class = ''
     permission_classes = (AllowAny,)
 
     def get(self, request):
@@ -60,7 +60,7 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
             # now verify the user
             user.is_verified = True
             user.save()
-            return Response('Successfully verified', status=status.HTTP_200_OK)
+            return Response('Successfully verified return to login page', status=status.HTTP_200_OK)
         # raise exceptions if token expired
         except jwt.ExpiredSignatureError as e:
             return Response({'error': 'Activations link expired'}, status=status.HTTP_400_BAD_REQUEST)
