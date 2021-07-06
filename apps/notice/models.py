@@ -26,7 +26,7 @@ class Notice(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    semester = models.CharField(max_length=20,choices=semester_choices)
+    semester = models.CharField(max_length=256,choices=semester_choices)
     image = models.ImageField(upload_to=upload_notice_image_to, validators=[validators.notice_image_validator])
 
     def __str__(self):

@@ -15,6 +15,7 @@ class AddNoticeSerializers(NoticeSerializers):
             'title',
             'description',
             'image',
+            'semester',
         )
 
 
