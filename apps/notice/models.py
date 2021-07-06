@@ -13,9 +13,20 @@ User = get_user_model()
 
 
 class Notice(BaseModel):
+    semester_choices = (
+        ('first', 'First'),
+        ('second', 'Second'),
+        ('third', 'Third'),
+        ('fourth', 'Fourth'),
+        ('fifth', 'Fifth'),
+        ('sixth', 'Sixth'),
+        ('seventh', 'Seventh'),
+        ('eight', 'Eight'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
+    semester = models.CharField(max_length=20,choices=semester_choices)
     image = models.ImageField(upload_to=upload_notice_image_to, validators=[validators.notice_image_validator])
 
     def __str__(self):

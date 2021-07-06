@@ -22,3 +22,6 @@ class ListNoticeUseCase:
 
     def _factory(self):
         self._notice = Notice.objects.all().order_by('-id')[:5]
+
+
+# class UpdateNoticeUseCase:
