@@ -9,7 +9,8 @@ class NoticeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'title',
-        'user'
+        'user',
+        'date_created'
     )
 
     list_display_links = (
