@@ -40,6 +40,7 @@ class UpdateNoticeView(generics.UpdateAPIView, NoticeMixin):
     serializer_class = serializers.UpdateNoticeSerializers
     permission_classes = [IsAuthenticated & (IsTeacher | IsLibrarian)]
     queryset = ''
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_object(self):
         return self.get_notice()
