@@ -206,8 +206,8 @@ CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
@@ -225,3 +225,6 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
 MEDIA_URL = "media/"
+
+DATE_FIELD_FORMAT = '%Y-%m-%d'
+DATE_TIME_FIELD_FORMAT = ' %B-%d %Y %H:%M %p'
