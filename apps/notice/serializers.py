@@ -20,6 +20,8 @@ class AddNoticeSerializers(NoticeSerializers):
 
 
 class ListNoticeSerializers(NoticeSerializers):
+    user = serializers.CharField()
+
     class Meta(NoticeSerializers.Meta):
         fields = (
             'id',
@@ -27,6 +29,8 @@ class ListNoticeSerializers(NoticeSerializers):
             'description',
             'image',
             'date_created',
+            'user',
+            'semester',
         )
 
     # for key in self._data.keys():
