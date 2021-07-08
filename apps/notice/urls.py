@@ -12,5 +12,15 @@ urlpatterns = [
         'list',
         views.ListNoticeView.as_view(),
         name='list-notice'
+    ),
+    path(
+        '<str:notice_id>/update',
+        views.UpdateNoticeView.as_view(),
+        name='update-notice'
+    ),
+    path(
+        '<str:notice_id>/delete',
+        views.DeleteNoticeView.as_view(),
+        name='delete-notice'
     )
 ]
