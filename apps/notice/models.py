@@ -22,6 +22,7 @@ class Notice(BaseModel):
         ('sixth', 'Sixth'),
         ('seventh', 'Seventh'),
         ('eight', 'Eight'),
+        ('all', 'All'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
