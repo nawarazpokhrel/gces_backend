@@ -1,5 +1,6 @@
 from django.utils.deconstruct import deconstructible
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 @deconstructible
@@ -18,9 +19,9 @@ class Validator:
 
     def __eq__(self, other):
         return (
-            isinstance(other, Validator) and
-            (self.message == other.message) and
-            (self.code == other.code)
+                isinstance(other, Validator) and
+                (self.message == other.message) and
+                (self.code == other.code)
         )
 
 
@@ -34,3 +35,9 @@ class ImageValidator(Validator):
 
         if value.size > self.file_size:
             raise ValidationError(self.message, code=self.code)
+
+
+@deconstructible
+class FileValidator(ImageValidator):
+    message = _('The maximum size of file that uploaded is 4MB.')
+    file_size = 5000000
