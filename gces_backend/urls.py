@@ -88,6 +88,10 @@ urlpatterns = [
                       'api/v1/notice/',
                       include('apps.notice.urls')
                   ),
+                  path(
+                      'api/v1/materials/',
+                      include('apps.materials.urls')
+                  ),
 
                   path(
                       'api/v1/user/auth/',

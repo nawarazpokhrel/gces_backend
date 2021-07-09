@@ -56,6 +56,7 @@ DEFAULT_APPS = [
 LOCAL_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.notice.apps.NoticeConfig',
+    'apps.materials.apps.MaterialsConfig',
 ]
 
 THIRD_PARTY_APPS = [
