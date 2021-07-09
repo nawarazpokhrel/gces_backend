@@ -27,7 +27,9 @@ class Notice(BaseModel):
     title = models.CharField(max_length=100)
     description = models.TextField()
     semester = models.CharField(max_length=256, choices=semester_choices)
-    image = models.ImageField(upload_to=upload_notice_image_to, validators=[validators.notice_image_validator])
+    image = models.ImageField(upload_to=upload_notice_image_to, validators=[validators.notice_image_validator],
+                              null=True,
+                              blank=True)
 
     def __str__(self):
         return self.title
