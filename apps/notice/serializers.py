@@ -35,10 +35,7 @@ class ListNoticeSerializers(NoticeSerializers):
             'semester',
         )
 
-    # for key in self._data.keys():
-    #         setattr(self._faq_category, key, self._data.get(key))
-    #     self._faq_category.updated_at = datetime.now()
-    #     self._faq_category.save()
+
 
 
 class UpdateNoticeSerializers(NoticeSerializers):
