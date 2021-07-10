@@ -39,7 +39,7 @@ class ListAssignmentSerializers(AssignmentSerializers):
         )
 
 
-class UpdateMaterialsSerializers(AssignmentSerializers):
+class UpdateAssignmentSerializers(AssignmentSerializers):
     class Meta(AssignmentSerializers.Meta):
         fields = (
             'title',

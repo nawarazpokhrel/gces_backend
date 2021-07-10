@@ -48,7 +48,7 @@ class UpdateAssignmentView(generics.UpdateAPIView, AssignmentMixin):
     Use this to update assignment
 
     """
-    serializer_class = serializers.UpdateMaterialsSerializers
+    serializer_class = serializers.UpdateAssignmentSerializers
     permission_classes = [IsAuthenticated & IsTeacher]
     queryset = ''
     parser_classes = (MultiPartParser, FormParser)
