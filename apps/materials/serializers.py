@@ -10,7 +10,7 @@ class MaterialSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AddNoticeSerializers(MaterialSerializers):
+class AddMaterialSerializers(MaterialSerializers):
     class Meta(MaterialSerializers.Meta):
         fields = (
             'title',

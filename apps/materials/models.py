@@ -32,4 +32,4 @@ class Material(BaseModel):
                             blank=True)
 
     def __str__(self):
-        return '{} for {}'.format(self.title, self.semester)
+        return '{} for {} semester'.format(self.title, self.semester)
