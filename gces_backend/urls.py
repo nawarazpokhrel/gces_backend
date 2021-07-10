@@ -92,6 +92,10 @@ urlpatterns = [
                       'api/v1/material/',
                       include('apps.materials.urls')
                   ),
+                  path(
+                      'api/v1/assignment/',
+                      include('apps.assignment.urls')
+                  ),
 
                   path(
                       'api/v1/user/auth/',
