@@ -72,3 +72,8 @@ class DeleteNoticeView(generics.DestroyAPIView, NoticeMixin):
 
     def perform_destroy(self, instance):
         return usecases.DeleteNoticeUseCase(notice=self.get_object()).execute()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response("Deleted notice successfully")
