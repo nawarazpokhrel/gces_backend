@@ -89,7 +89,7 @@ urlpatterns = [
                       include('apps.notice.urls')
                   ),
                   path(
-                      'api/v1/materials/',
+                      'api/v1/material/',
                       include('apps.materials.urls')
                   ),
 
