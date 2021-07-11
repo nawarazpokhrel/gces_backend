@@ -23,7 +23,7 @@ class BaseUserUseCase:
         relative_link = reverse('activate-by-email')
         # make whole url
         # absolute_url = 'http://' + current_site + relative_link + "?token=" + str(token)
-        absolute_url = 'http://localhost:3000' + relative_link + "?token=" + str(token)
+        absolute_url = 'http://localhost:3000/'+'activate-by-email' + "?token=" + str(token)
         self.context = {
             'user': self.user_instance.fullname,
             'token': absolute_url

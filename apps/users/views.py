@@ -7,6 +7,7 @@ from apps.users import usecases, serializers
 from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.exceptions import ValidationError
 
 from apps.users.mixins import UserMixin
 from gces_backend.settings import SECRET_KEY
@@ -58,9 +59,13 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
             # get the user that sent the payload
             user = User.objects.get(id=payload['user_id'])
             # now verify the user
-            user.is_verified = True
-            user.save()
-            return Response('Successfully verified return to login page', status=status.HTTP_200_OK)
+            if not user.is_verified:
+                user.is_verified = True
+                user.save()
+                return Response('Successfully verified return to login page', status=status.HTTP_200_OK)
+            else:
+                raise ValidationError('You are already verified.')
+
         # raise exceptions if token expired
         except jwt.ExpiredSignatureError as e:
             return Response({'error': 'Activations link expired'}, status=status.HTTP_400_BAD_REQUEST)

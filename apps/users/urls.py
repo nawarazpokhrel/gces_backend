@@ -14,11 +14,11 @@ urlpatterns = [
         views.CreateStudentUserView.as_view(),
         name='Add-student-detail'
     ),
-    # path(
-    #     'activate-by-email',
-    #     views.VerifyEmailAndSubscribeEmailView.as_view(),
-    #     name='activate-by-email'
-    # ),
+    path(
+        'activate-by-email',
+        views.VerifyEmailAndSubscribeEmailView.as_view(),
+        name='activate-by-email'
+    ),
     path(
         'profile',
         views.UserProfileView.as_view(),
