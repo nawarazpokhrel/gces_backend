@@ -96,11 +96,11 @@ urlpatterns = [
                       include('apps.users.auth.urls')
                   ),
 
-                  path(
-                      'activate-by-email',
-                      views.VerifyEmailAndSubscribeEmailView.as_view(),
-                      name='activate-by-email'
-                  ),
+                  # path(
+                  #     'activate-by-email',
+                  #     views.VerifyEmailAndSubscribeEmailView.as_view(),
+                  #     name='activate-by-email'
+                  # ),
 
                   path(
                       'api/docs/',
