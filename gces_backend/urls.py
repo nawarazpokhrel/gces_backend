@@ -21,8 +21,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
-
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
@@ -34,10 +32,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from apps.users import views
 from gces_backend import settings
-
-
-
 
 title = "Tripnp Hotel Resource API",
 default_version = 'v1',
@@ -52,7 +48,6 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
-
 
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
@@ -72,7 +67,6 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
-
 
 urlpatterns = [
                   path(
@@ -100,6 +94,12 @@ urlpatterns = [
                   path(
                       'api/v1/user/auth/',
                       include('apps.users.auth.urls')
+                  ),
+
+                  path(
+                      'activate-by-email',
+                      views.VerifyEmailAndSubscribeEmailView.as_view(),
+                      name='activate-by-email'
                   ),
 
                   path(
