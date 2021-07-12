@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.exceptions import ValidationError
+from django.shortcuts import redirect
 
 from apps.users.mixins import UserMixin
 from gces_backend.settings import SECRET_KEY
@@ -62,9 +63,9 @@ class VerifyEmailAndSubscribeEmailView(generics.GenericAPIView):
             if not user.is_verified:
                 user.is_verified = True
                 user.save()
-                return Response('Successfully verified return to login page', status=status.HTTP_200_OK)
-            else:
-                raise ValidationError('You are already verified.')
+                return redirect('http://localhost:3000/login')
+            # else:
+            #     raise ValidationError('You are already verified.')
 
         # raise exceptions if token expired
         except jwt.ExpiredSignatureError as e:
