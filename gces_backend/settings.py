@@ -58,6 +58,7 @@ LOCAL_APPS = [
     'apps.notice.apps.NoticeConfig',
     'apps.materials.apps.MaterialsConfig',
     'apps.assignment.apps.AssignmentConfig',
+    'apps.result.apps.ResultConfig',
 ]
 
 THIRD_PARTY_APPS = [

@@ -95,6 +95,10 @@ urlpatterns = [
                       'api/v1/user/auth/',
                       include('apps.users.auth.urls')
                   ),
+                  path(
+                      'api/v1/result/',
+                      include('apps.result.urls')
+                  ),
 
                   # path(
                   #     'activate-by-email',
